@@ -1,0 +1,43 @@
+.no-data{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-data p {
+    padding-top: 50px;
+    font-size: 24px;
+    font-weight: 700;
+    color: red;
+}
+
+
+tbody tr td {
+    background-color: rgb(238, 32, 32);
+    color: white;
+    font-weight: 500;
+}
+
+tbody tr.selected td{
+    background-color: rgb(238, 183, 32);
+}
+
+tbody tr.present td{
+    background-color: rgb(64, 201, 64)!important;
+}
+
+tbody tr.present.selected td{
+    background-color: rgb(51, 140, 223)!important;
+}
+
+.btn{
+    width: 100%;
+    background-color: rgb(238, 183, 32);
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width: 400px) {
+    thead tr {
+        font-size: 12px;
+    } 
+}

@@ -1,0 +1,160 @@
+.home{
+    text-align: center;
+    min-height: 100vh;
+}
+
+/* ***************** Top Section Start ***************** */
+
+.home .top{
+    padding: 20px 0 10px;
+    background: linear-gradient(45deg, rgb(80, 153, 236) 0%, rgb(179, 238, 145) 100%);
+    color: rgb(44, 44, 44);
+    position: relative;
+}
+
+.top .exit{
+    background-color: red;
+    position: absolute;
+    top: 25px;
+    right: 10px;
+    padding: 6px 15px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+}
+.top .row{
+    padding: 10px 0;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.top .col{
+    padding:5px;
+}
+
+.top .row-1 .col{
+    min-width: 130px;
+    max-width: 250px;
+}
+
+.top .row-2 .col{
+    max-width: 400px;
+}
+.top .row-3{
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 500;
+    /* border-radius: 25px; */
+}
+.top .row-3 .col-1{
+    border-radius: 25px 0 0 25px;
+}
+
+.top .row-3 .col-2{
+    border-radius: 0 25px 25px 0;
+
+}
+
+.top .row-3 .col{
+    min-width: 135px;
+    background-color: white;
+    padding: 10px;
+    height: 50px;
+    /* align-items: center; */
+
+}
+.top .row-3 .col select{
+    background-color: white;
+    border-radius: 25px;
+    width: 100%;
+    padding: 0 10px;
+}
+.top .row-3 .col h5{
+    margin: 0;
+    padding: 3px 0 4px;
+}
+
+.top .col p{
+    background-color: white;
+    padding: 5px;
+    margin: 0;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+
+
+@media screen and (max-width: 767px) {
+    .top .row-2{
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .home .top{
+        padding: 20px 10px;
+    }
+}
+
+@media screen and (max-width: 475px) {
+    h1{
+        font-size: 22px;
+    }
+
+    h4{
+        font-size: 18px;
+    }
+    .home .top{
+        padding: 40px 10px;
+    }
+    .top .exit{
+        top: 10px;
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+    
+}
+/* ***************** Top Section End ***************** */
+
+/* ***************** Bottom Section Start ***************** */
+
+
+.bottom{
+    background-color: white;
+    padding-bottom: 10px;
+
+}
+
+.bottom .row{
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom .col.selected{
+    background-color: rgb(80, 153, 236);
+    box-shadow: 2px 2px 2px rgb(44, 44, 44);
+}
+
+.bottom .col.selected .btn{
+    color: white;
+}
+
+.bottom .col .btn{
+    width: 100%;
+    font-weight: 500;
+}
+.bottom .col .btn:focus{
+    box-shadow: none;
+}
+
+.bottom .col .btn.selected{
+    border-bottom:5px solid white ;
+}
+
+.loading-data{
+    background-color: rgb(80, 153, 236);
+    border-radius: 15px;
+}

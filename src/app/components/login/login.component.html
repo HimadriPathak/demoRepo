@@ -1,0 +1,87 @@
+<div class="outer">
+    <div class="container">
+        <div class="row" *ngIf="!this.isLoading">
+            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+                <div class="panel border bg-white">
+                    <div class="panel-heading">
+                        <img class="logo" src="assets/images/logo.png" alt="logo">
+                        <h4>Bikaner Nagar Nigam</h4>
+                        <h4>Safai Karamchari Attendance System</h4>
+                        <h3 class="pt-3 font-weight-bold">Login</h3>
+                    </div>
+                    <div class="panel-body p-3">
+                        <form [formGroup] ='loginForm'>
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input formControlName="username" type="text" placeholder="Username">
+                                </div>
+                            </div>
+                            <small *ngIf="loginForm.controls['username'].dirty && loginForm.hasError('required', 'username')" class="text-danger">*Username is required</small>
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-lock p-2"></span>
+                                    <input formControlName="password" [type]="type" placeholder="Password">
+                                    <span (click)="hideShowPass()"  class="fa {{eyeIcon}}"></span>
+                                </div>
+                            </div>
+                            <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">*Password is required</small>
+                            
+                            <button (click)="onSubmit()" type="submit" class="btn btn-primary btn-block mt-4 w-100">Login</button>
+                            <button class="btn btn-help" (click)="open(helpInstructions)">Help Instructions</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loading-data" *ngIf="this.isLoading">
+            <div class="spinner-border spinner-border-sm text-light" role="status"></div>
+            <h1>Authorising login details</h1>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #default let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Alert</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label>{{alertMessage}}</label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.close('Save click')">Exit</button>
+    </div>
+</ng-template>
+
+
+
+<ng-template #helpInstructions let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Help Instructions</h4>
+    </div>
+    <div class="modal-body">
+      <form>
+        <ul class="mb-1">
+            <li>Make Sure you have android device.</li>
+            <li>Android Version should be above 5.0</li>
+            <li>After 12:00AM, this app will automatically log out</li>
+        </ul>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ok" (click)="modal.close()">Ok</button>
+    </div>
+</ng-template>

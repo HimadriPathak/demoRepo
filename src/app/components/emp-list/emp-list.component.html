@@ -1,0 +1,48 @@
+<div class="no-data" *ngIf ="!employees; else elseBlock">
+    <p>Please Select the Ward No.</p>
+</div>
+
+<ng-template #elseBlock>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Token No.</th>
+              <th>Employee Name</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees; let i = index" [ngClass]="{'selected': isRowSelected(i)}" (click)="onRowClick(i)" (click)="updateSelectedList(employee)"  [class.present]="employee.IsPresent">
+            <td>{{ i + 1 }}</td>
+            <td>{{ employee.EmployeeNo }}</td>
+            <td>{{ employee.EmployeeName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    <button *ngIf="!present" (click)="submit()" class="btn" type="button">Submit</button>
+</ng-template>
+
+
+<ng-template #default let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Alert</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <label>{{alertMessage}}</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')">Exit</button>
+  </div>
+</ng-template>

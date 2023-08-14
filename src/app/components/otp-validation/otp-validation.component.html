@@ -1,0 +1,49 @@
+<div class="outer">
+    <div class="container">
+        <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+
+        <div class="otp border bg-white">
+            <img class="logo" src="assets/images/logo.png" alt="logo">
+            <h4>Please Enter the OTP </h4>
+            <form [formGroup] ='otpForm'>
+                <div class="form-group pt-3">
+                    <div class="input-field">
+                        <input formControlName="otp" type="number" placeholder="Enter OTP">
+                    </div>
+                </div>
+                <small *ngIf="otpForm.controls['otp'].dirty && otpForm.hasError('required', 'otp')" class="text-danger">*OTP Required</small>
+                <button (click)="onSubmit()" type="submit" class="btn btn-primary btn-block mt-4 w-100">Submit</button>
+            </form>
+            <span>didn't receive OTP? 
+                <countdown #cd *ngIf="timer == false" [config]="config" (event)="handleEvent($event)"> </countdown>
+                <span (click)="resend()" *ngIf="timer != false"> Resend</span>
+            </span>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #default let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Alert</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label>{{alertMessage}}</label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.close('Save click')">Exit</button>
+    </div>
+</ng-template>

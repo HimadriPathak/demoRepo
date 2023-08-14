@@ -1,0 +1,102 @@
+<div *ngIf="wardNo != 0; else  elseBlock" class="home">
+    <div class="top">
+            <div class="container">
+            <h1>Nagar Nigam Bikaner</h1>
+            <h4>Safai Karamchari Attendance System</h4>
+            <button class="btn exit" type="button" (click) ="appExit()">Exit</button>
+            <div class="row row-1">
+                <div class="col"><p>{{currDate}}</p></div>
+                <div class="col"><p>Circle No. - {{circleNo}}</p></div>
+                <div class="col"><p>Ward No. - {{wardNo}}</p></div>
+            </div>
+            <h4>{{name}}</h4>
+            <div class="row row-2">
+                <div class="col"><p>Morning Time - {{morningTime}}</p></div>
+                <div class="col"><p>Evening Time - {{eveningTime}}</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col" [class.selected] = "shiftSelected == true"><button class="btn" (click)="shiftSelected = true; callemplist()" type="button">Morning Shift</button></div>
+                <div class="col" [class.selected] = "shiftSelected != true" ><button class="btn" type="button" (click)="shiftSelected = false; callemplist()">Evening Shift</button></div>
+            </div>
+            <app-emp-list [selectedList]="selectedList" [update]="update" [selected] = "selected" [shiftSelected] ="shiftSelected" *ngIf="!this.isLoading"></app-emp-list>
+            <div class="loading-data" *ngIf="this.isLoading">
+                <div class="spinner-border spinner-border-sm text-light" role="status"></div>
+                <h1>Fetching Data</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #elseBlock>
+    <div class="home">
+        <div class="top">
+                <div class="container">
+                <h1>Nagar Nigam Bikaner</h1>
+                <h4>Safai Karamchari Attendance System</h4>
+                <app-modal-box class="btn exit" type="button" [buttonValue] = "buttonValue"><button>Exit</button></app-modal-box>
+                <div class="row row-1">
+                    <div class="col"><p>{{currDate}}</p></div>
+                    <div class="col"><p>Circle No. - {{circleNo}}</p></div>
+                </div>
+                <h4>{{name}}</h4>
+                <div class="row row-2">
+                    <div class="col"><p>Morning Time - {{morningTime}}</p></div>
+                    <div class="col"><p>Evening Time - {{eveningTime}}</p></div>
+                </div>
+                <div class="row row-3">
+                    <div class="col col-1"><h5>Ward No. - </h5></div>
+                    <div class="col col-2">
+                        <select #wardList (change)="updateWardNo($event)">
+                            <option value="default">{{"Select.."}}</option>
+                            <option *ngFor="let ward of wards" [value]="ward">
+                                {{ward}}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col" [class.selected] = "shiftSelected == true"><button class="btn" (click)="shiftSelected = true; callemplist()" type="button">Morning Shift</button></div>
+                    <div class="col" [class.selected] = "shiftSelected != true" ><button class="btn" type="button" (click)="shiftSelected = false; callemplist()">Evening Shift</button></div>
+                </div>
+                <div class="loading-data" *ngIf="this.isLoading">
+                    <div class="spinner-border spinner-border-sm text-light" role="status"></div>
+                    <h1>Fetching Data</h1>
+                </div>
+                <app-emp-list [wardNo]="wardNo" [selectedList]="selectedList" [update]="update" [selected] = "selected" [shiftSelected] ="shiftSelected" *ngIf="!this.isLoading"></app-emp-list>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #default let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Alert</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label>{{alertMessage}}</label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.close('Save click')">Yes</button>
+    </div>
+  </ng-template>
