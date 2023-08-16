@@ -4,6 +4,8 @@ import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
+import data from '../../../assets/json/data.json';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @Component({
   selector: 'app-otp-validation',
@@ -13,7 +15,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 export class OtpValidationComponent {
   
   userDetails: any;
-  config: CountdownConfig = { leftTime: 10, format: 'mm:ss' };
+  configcd: CountdownConfig = { leftTime: 10, format: 'mm:ss' };
   notify = '';
   incorrectOTP = false;
   otpValue: String;
@@ -22,6 +24,11 @@ export class OtpValidationComponent {
   @ViewChild('default') defaultTemplate!: TemplateRef<any>;
   alertMessage = '';
   otpForm!: FormGroup;
+  loginDetails = JSON.parse(localStorage['UserLoginData']).Table[0];
+  orgData = data;
+
+  @ViewChild('otpInput') ngOtpInput : NgOtpInputModule;
+  config = { allowNumbersOnly: true, length: 6, isPasswordInput: false, disableAutoFocus: false };
 
   constructor(private modalService: NgbModal, private otp: OtpVerificationService, private router: Router, private fb: FormBuilder){
     this.otpForm = this.fb.group({
@@ -30,7 +37,6 @@ export class OtpValidationComponent {
   }
   
   ngOnInit(){
-    console.log(this.countdown);
     this.userDetails = JSON.parse(localStorage["UserDetails"]);
   }
   
@@ -44,11 +50,14 @@ export class OtpValidationComponent {
     }
   }
 
-  onSubmit(){
+  onSubmit(otpInput: any = ''){
+    if(this.loginDetails.IsOTPSend != 1){
+      this.router.navigate(['/home'], { replaceUrl: true });
+    }
     if(this.otpForm.valid){
       this.otpValue = String(JSON.parse(localStorage["OTPData"]).Data.Table[0].OtpCD);
-      if(this.otpForm.value.otp == this.otpValue){
-        this.router.navigate(['/home']);
+      if(otpInput.currentVal == this.otpValue){
+        this.router.navigate(['/home'], { replaceUrl: true });
       }else{
         this.otpForm.reset();
         this.alertMessage = "Wrong OTP!!";
@@ -58,6 +67,7 @@ export class OtpValidationComponent {
       this.validateAllFormFields(this.otpForm);
     }
   }
+
 
   private validateAllFormFields(formGroup : FormGroup){
     Object.keys(formGroup.controls).forEach(field => {
@@ -76,7 +86,6 @@ export class OtpValidationComponent {
     this.otp.otpgeneration(this.userDetails);
   }
 
-    
   open(template: TemplateRef<any> = this.defaultTemplate) {
     this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title' })
   }

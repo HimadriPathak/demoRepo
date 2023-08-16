@@ -21,6 +21,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
 import { OtpValidationComponent } from './components/otp-validation/otp-validation.component';
 import { OtpVerificationService } from './services/otp-verification.service';
 import { CountdownComponent } from 'ngx-countdown';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 
 const appRoute : Routes = [
@@ -48,6 +49,7 @@ const appRoute : Routes = [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    NgOtpInputModule,
     HttpClientModule,
     RouterModule.forRoot(appRoute, {useHash: true}),
     ServiceWorkerModule.register('ngsw-worker.js', {

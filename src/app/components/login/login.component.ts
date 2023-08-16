@@ -24,6 +24,7 @@ export class LoginComponent {
   isLoading: Boolean = false;
   closeResult = '';
   counter = 0;
+  orgData = data;
   
   constructor(private otp: OtpVerificationService,private modalService: NgbModal,private fb: FormBuilder, private router: Router, private auth : AuthService){
     this.loginForm = this.fb.group({
@@ -32,7 +33,6 @@ export class LoginComponent {
     })
   }
   ngOnInit(): void{
-    console.log(data["orgID"]);
   }
 
   hideShowPass(){
@@ -54,11 +54,8 @@ export class LoginComponent {
               localStorage[CACHE_KEY] = JSON.stringify(this.newData);
               if(this.newData.Table[0].IsOTPSend == 1){
                 this.otp.otpgeneration(this.loginForm.value);
-                this.router.navigate(['/otp-validation']);
-
-              }else{
-                this.router.navigate(['/home']);
               }
+              this.router.navigate(['/otp-validation']);
             }else{
               this.loginForm.reset();
               this.alertMessage = "Wrong Username/Password";

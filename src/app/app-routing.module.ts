@@ -5,6 +5,8 @@ import { HomeComponent } from './components/home/home.component';
 import { EmpListComponent } from './components/emp-list/emp-list.component';
 import { AppComponent } from './app.component';
 import { ModalBoxComponent } from './components/modal-box/modal-box.component';
+import { NgOtpInputModule } from 'ng-otp-input';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -19,7 +21,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{useHash: true})],
+  imports: [
+    NgOtpInputModule,
+    RouterModule.forRoot(routes,{useHash: true})
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

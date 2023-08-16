@@ -3,21 +3,32 @@
         <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
 
         <div class="otp border bg-white">
-            <img class="logo" src="assets/images/logo.png" alt="logo">
-            <h4>Please Enter the OTP </h4>
-            <form [formGroup] ='otpForm'>
-                <div class="form-group pt-3">
-                    <div class="input-field">
-                        <input formControlName="otp" type="number" placeholder="Enter OTP">
+            <img *ngIf="orgData['orgLogo']" class="logo" src="{{orgData['orgLogo']}}" alt="logo">
+
+            <div *ngIf="loginDetails.IsOTPSend == 1">
+                <h4>{{loginDetails.OrgName}}</h4>
+                <h4>Safai Karamchari Attendance System</h4>
+                <h4>{{loginDetails.UserName}}</h4>
+                <h4>Please Enter the OTP </h4>
+                <form [formGroup] ='otpForm'>
+                    <div class="form-group pt-1">
+                            <ng-otp-input #otpinput [config]="config"></ng-otp-input>
                     </div>
-                </div>
-                <small *ngIf="otpForm.controls['otp'].dirty && otpForm.hasError('required', 'otp')" class="text-danger">*OTP Required</small>
-                <button (click)="onSubmit()" type="submit" class="btn btn-primary btn-block mt-4 w-100">Submit</button>
-            </form>
-            <span>didn't receive OTP? 
-                <countdown #cd *ngIf="timer == false" [config]="config" (event)="handleEvent($event)"> </countdown>
-                <span (click)="resend()" *ngIf="timer != false"> Resend</span>
-            </span>
+                    <small *ngIf="otpForm.controls['otp'].dirty && otpForm.hasError('required', 'otp')" class="text-danger">*OTP Required</small>
+                    <button (click)="onSubmit(otpinput)" type="submit" class="btn btn-primary btn-block mt-4 w-100">Submit</button>
+                </form>
+                <span>didn't receive OTP? 
+                    <countdown #cd *ngIf="timer == false" [config]="configcd" (event)="handleEvent($event)"> </countdown>
+                    <span (click)="resend()" *ngIf="timer != false"> Resend</span>
+                </span>
+            </div>
+            <div *ngIf="loginDetails.IsOTPSend != 1">
+                <h4>Welcome To</h4>
+                <h4>{{loginDetails.OrgName}}</h4>
+                <h4>Safai Karamchari Attendance System</h4>
+                <h4>{{loginDetails.UserName}}</h4>
+                <button (click)="onSubmit()" type="submit" class="btn btn-primary btn-block mt-4 w-100">Continue</button>
+            </div>
         </div>
         </div>
     </div>
@@ -31,7 +42,7 @@
         type="button"
         class="btn-close"
         aria-label="Close"
-        (click)="modal.dismiss('Cross click')"></button>
+        (click)="modal.dismiss()"></button>
     </div>
     <div class="modal-body">
       <form>
@@ -44,6 +55,6 @@
       <button
         type="button"
         class="btn btn-outline-dark"
-        (click)="modal.close('Save click')">Exit</button>
+        (click)="modal.close()">Exit</button>
     </div>
 </ng-template>

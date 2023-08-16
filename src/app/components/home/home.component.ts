@@ -60,7 +60,6 @@ export class HomeComponent {
       this.selected = this.wardNo;
       this.callemplist();
     }
-    
   }
   open(template: TemplateRef<any> = this.defaultTemplate) {
 		this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title' }).result.then(
@@ -123,11 +122,7 @@ export class HomeComponent {
   appExit() {
     localStorage.clear();
     this.shareData.setData(undefined);
-    if (this.data.Table[0].IsOTPSend == 1){
-      history.go(-2);
-    }else{
-      history.go(-1);
-    }
+    history.go(-1);
     this.appService.closeApp();
   }
 }

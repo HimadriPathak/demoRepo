@@ -4,8 +4,8 @@
             <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
                 <div class="panel border bg-white">
                     <div class="panel-heading">
-                        <img class="logo" src="assets/images/logo.png" alt="logo">
-                        <h4>Bikaner Nagar Nigam</h4>
+                        <img *ngIf="orgData['orgLogo']" class="logo" src="{{orgData['orgLogo']}}" alt="logo">
+                        <h4 *ngIf="orgData['orgName']">{{orgData['orgName']}}</h4>
                         <h4>Safai Karamchari Attendance System</h4>
                         <h3 class="pt-3 font-weight-bold">Login</h3>
                     </div>
