@@ -19,11 +19,7 @@
     object-fit: cover;
     padding-bottom: 15px;
 }
-/* .btn{
-    color: white;
-    margin-top: 10px;
-    padding-top: 10px;
-} */
+
 h4{
     padding: 0 0 10px;
 }
@@ -38,7 +34,6 @@ small{
     font-weight: 500;
     padding: 5px 10px;
 }
-
 
 .input-field{
     border-radius: 5px;

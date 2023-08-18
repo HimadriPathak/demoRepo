@@ -22,7 +22,7 @@
                 <div class="col" [class.selected] = "shiftSelected == true"><button class="btn" (click)="shiftSelected = true; callemplist()" type="button">Morning Shift</button></div>
                 <div class="col" [class.selected] = "shiftSelected != true" ><button class="btn" type="button" (click)="shiftSelected = false; callemplist()">Evening Shift</button></div>
             </div>
-            <app-emp-list [selectedList]="selectedList" [update]="update" [selected] = "selected" [shiftSelected] ="shiftSelected" *ngIf="!this.isLoading"></app-emp-list>
+            <app-emp-list [selectedList]="selectedList"  [selected] = "selected" [shiftSelected] ="shiftSelected" *ngIf="!this.isLoading"></app-emp-list>
             <div class="loading-data" *ngIf="this.isLoading">
                 <div class="spinner-border spinner-border-sm text-light" role="status"></div>
                 <h1>Fetching Data</h1>
@@ -71,7 +71,7 @@
                     <div class="spinner-border spinner-border-sm text-light" role="status"></div>
                     <h1>Fetching Data</h1>
                 </div>
-                <app-emp-list [wardNo]="wardNo" [selectedList]="selectedList" [update]="update" [selected] = "selected" [shiftSelected] ="shiftSelected" *ngIf="!this.isLoading"></app-emp-list>
+                <app-emp-list [wardNo]="wardNo" [selectedList]="selectedList"  [selected] = "selected" [shiftSelected] ="shiftSelected" *ngIf="!this.isLoading"></app-emp-list>
             </div>
         </div>
     </div>

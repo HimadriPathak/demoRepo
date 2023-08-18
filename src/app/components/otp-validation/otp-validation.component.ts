@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild,TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { OtpVerificationService } from 'src/app/services/otp-verification.service';
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
-import data from '../../../assets/json/data.json';
 import { NgOtpInputModule } from 'ng-otp-input';
 
 @Component({
@@ -12,78 +10,63 @@ import { NgOtpInputModule } from 'ng-otp-input';
   templateUrl: './otp-validation.component.html',
   styleUrls: ['./otp-validation.component.css']
 })
+
 export class OtpValidationComponent {
-  
-  userDetails: any;
-  configcd: CountdownConfig = { leftTime: 10, format: 'mm:ss' };
-  notify = '';
+
+  // user details to resend sms
+  userDetails = JSON.parse(localStorage["UserDetails"]);
+  loginDetails = JSON.parse(localStorage['UserLoginData']).Table[0];
+
   incorrectOTP = false;
   otpValue: String;
-  timer = false;
-  @ViewChild('cd') private countdown: CountdownComponent;
-  @ViewChild('default') defaultTemplate!: TemplateRef<any>;
-  alertMessage = '';
-  otpForm!: FormGroup;
-  loginDetails = JSON.parse(localStorage['UserLoginData']).Table[0];
-  orgData = data;
+  timer = true;
 
+  // represents the components in html
+  @ViewChild('cd') countdown: CountdownComponent;
+  @ViewChild('default') defaultTemplate!: TemplateRef<any>;
   @ViewChild('otpInput') ngOtpInput : NgOtpInputModule;
+
+  // configuration of counter and input field
+  configcd: CountdownConfig = { leftTime: 10, format: 'mm:ss' };
   config = { allowNumbersOnly: true, length: 6, isPasswordInput: false, disableAutoFocus: false };
 
-  constructor(private modalService: NgbModal, private otp: OtpVerificationService, private router: Router, private fb: FormBuilder){
-    this.otpForm = this.fb.group({
-      otp: ['', Validators.required]
-    })
-  }
+  constructor(private modalService: NgbModal, private otp: OtpVerificationService, private router: Router){ }
   
-  ngOnInit(){
-    this.userDetails = JSON.parse(localStorage["UserDetails"]);
-  }
-  
-  handleEvent(e: CountdownEvent) {
-    this.notify = e.action.toUpperCase();
-    if (e.action === 'notify') {
-      this.notify += ` - ${e.left} ms`;
-    }
+  // when clock turn 0 resend button appear
+  clockCounter(e: CountdownEvent) {
     if (e.left == 0){
-      this.timer = true;
+      this.timer = false;
     }
   }
 
+  // when clicked on resend button otp-generation service will be called and user will get another message
+  resend(){
+    this.timer = true;
+    this.otp.otpgeneration(this.userDetails);
+    this.countdown.restart();
+  }
+
+  // otp validation when clicked on submit/continue
   onSubmit(otpInput: any = ''){
+    // if pressed on continue it will send the user to home page
     if(this.loginDetails.IsOTPSend != 1){
       this.router.navigate(['/home'], { replaceUrl: true });
+      return
     }
-    if(this.otpForm.valid){
+    // if otp is required and pressed on submit matching the otp
+    else if(otpInput.currentVal){
+      this.incorrectOTP = false;
       this.otpValue = String(JSON.parse(localStorage["OTPData"]).Data.Table[0].OtpCD);
+      // if otp is correctly entered send the user to home page else open a message box 
       if(otpInput.currentVal == this.otpValue){
         this.router.navigate(['/home'], { replaceUrl: true });
       }else{
-        this.otpForm.reset();
-        this.alertMessage = "Wrong OTP!!";
-        this.open(this.defaultTemplate)
+        this.open(this.defaultTemplate);
       }
+      // if otp field is empty show otp required message
     }else{
-      this.validateAllFormFields(this.otpForm);
+      this.incorrectOTP = true
     }
-  }
-
-
-  private validateAllFormFields(formGroup : FormGroup){
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      if(control instanceof FormControl){
-        control.markAsDirty({onlySelf:true})
-      }else if( control instanceof FormGroup){
-        this.validateAllFormFields(control)
-      }
-    })
-  }
-
-  resend(){
-    this.timer = false;
-    this.countdown.restart();
-    this.otp.otpgeneration(this.userDetails);
   }
 
   open(template: TemplateRef<any> = this.defaultTemplate) {

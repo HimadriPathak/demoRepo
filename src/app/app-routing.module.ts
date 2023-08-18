@@ -15,9 +15,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'home', component: HomeComponent},
   {path: 'empList', component: EmpListComponent},
-  {path: 'modalbox', component: ModalBoxComponent},
-
-
+  {path: 'modalbox', component: ModalBoxComponent}
 ];
 
 @NgModule({
@@ -27,4 +25,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

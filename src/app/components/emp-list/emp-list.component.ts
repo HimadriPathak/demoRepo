@@ -12,49 +12,49 @@ import { SharingService } from 'src/app/services/sharing.service';
 })
 
 export class EmpListComponent {
+
   constructor(private modalService: NgbModal, private shareData: SharingService, private markEmployeeAttendance : MarkAttendanceService, private router: Router){}
-  @ViewChild('default') defaultTemplate!: TemplateRef<any>;
-  closeResult = '';
-  alertMessage = '';
-  showAlert: boolean = false;
-  employees: any;
+
   @Input() wardNo:any;
   @Input() selected:any;
-  @Input() update = 0;
   @Input() shiftSelected: any;
   @Input() selectedList: any;
   selectedIndexes: number[] = [];
-  present:Boolean;
+  showAlert: boolean = false;
+  closeResult = '';
+  alertMessage = '';
   data:any;
+  employees: any;
+  present:Boolean;
+  @ViewChild('default') defaultTemplate!: TemplateRef<any>;
+  
+
+  // when the component is called it gets the shared data from sharing service and stores it in empolyee object array
   ngOnChanges() {
     this.employees = this.shareData.getData();
     this.employees = this.employees.Data;
     this.selectedIndexes = [];
     this.selectedList.clear();
-    // this.present = false;
-    // console.log(this.wardNo)
     if(this.wardNo != 0){
       this.present = this.employees.some(employee => employee['IsPresent'] == true);
     }
   }
 
+  // when an employee is selected it checks if it is jamadar or SI and if jamadar has already marked the attendance it will not update selected list
   updateSelectedList(emp:any){
     if(this.present){
       return
     }
-    localStorage["listselected"] = 1;
-    if(this.selectedList.has(emp)){
+    // if employee is present in selected list delete that employee else add the employee to the list
+    else if(this.selectedList.has(emp)){
       this.selectedList.delete(emp);
     }
     else{
       this.selectedList.add(emp);
     }
-    if(this.selectedList.size == 0){
-      this.update = 0;
-      localStorage["listselected"] = 0;
-    }
   }
 
+  // this function tells which row is selected and which isn't based on the index of the row and adds selected class to the row to change its color
   onRowClick(index: number) {
     if(this.present){
       return
@@ -66,12 +66,32 @@ export class EmpListComponent {
       this.selectedIndexes.push(index);
     }
   }
-
   isRowSelected(index: number): boolean {
     return this.selectedIndexes.indexOf(index) > -1;
   }
 
 
+  // when clicked on submit button it calls mark employee attendance service and mark attendance functionby passing all the required parameters
+  submit(){
+    this.data = this.markEmployeeAttendance.markAttendance(this.wardNo,this.selected,this.shiftSelected,this.selectedList, this.employees)
+    this.data.subscribe(
+      // after the responce is fetched it displays the message and sends back to the default home page
+          (data: any) => {
+            setTimeout(() => {
+              this.alertMessage = data.Message + "!!   Sending Back to Home Page";
+              this.open();
+            }, 10);
+          },
+          // if an error occured is shows an alert console logs the message
+          (err : any) => {
+            alert("Data Not Found");
+            console.log(err)
+          }
+        );
+  }
+
+
+  // when the message box is opened it shows 2 options but both does the same thing calls the change route function to navigate to the home page
   open(template: TemplateRef<any> = this.defaultTemplate) {
 		this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       (result) => {
@@ -82,27 +102,12 @@ export class EmpListComponent {
 			},
 		);
 	}
+
+  // set the shared data to null and send the user to home page
   changeRoute(){
     this.shareData.setData(undefined);
     this.router.navigateByUrl('/',{skipLocationChange:true}).then(()=>{
       this.router.navigate(['/home'])})
   }
 
-
-  submit(){
-    this.data = this.markEmployeeAttendance.markAttendance(this.wardNo,this.selected,this.shiftSelected,this.selectedList, this.employees)
-    this.data.subscribe(
-          (data: any) => {
-            // console.log(data);
-            setTimeout(() => {
-              this.alertMessage = data.Message + "!!   Sending Back to Home Page";
-              this.open();
-            }, 10);
-          },
-          (err : any) => {
-            alert("Data Not Found");
-            console.log(err)
-          }
-        );
-  }
 }

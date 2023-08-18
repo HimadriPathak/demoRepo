@@ -3,23 +3,23 @@
         <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
 
         <div class="otp border bg-white">
-            <img *ngIf="orgData['orgLogo']" class="logo" src="{{orgData['orgLogo']}}" alt="logo">
+            <img *ngIf="loginDetails.OrgLogo" class="logo" src="{{loginDetails.OrgLogo}}" alt="logo">
 
             <div *ngIf="loginDetails.IsOTPSend == 1">
                 <h4>{{loginDetails.OrgName}}</h4>
                 <h4>Safai Karamchari Attendance System</h4>
                 <h4>{{loginDetails.UserName}}</h4>
                 <h4>Please Enter the OTP </h4>
-                <form [formGroup] ='otpForm'>
+                <div>
                     <div class="form-group pt-1">
-                            <ng-otp-input #otpinput [config]="config"></ng-otp-input>
+                        <ng-otp-input #otpinput [config]="config"></ng-otp-input>
                     </div>
-                    <small *ngIf="otpForm.controls['otp'].dirty && otpForm.hasError('required', 'otp')" class="text-danger">*OTP Required</small>
+                    <small *ngIf="incorrectOTP" class="text-danger">*OTP Required</small>
                     <button (click)="onSubmit(otpinput)" type="submit" class="btn btn-primary btn-block mt-4 w-100">Submit</button>
-                </form>
+                </div>
                 <span>didn't receive OTP? 
-                    <countdown #cd *ngIf="timer == false" [config]="configcd" (event)="handleEvent($event)"> </countdown>
-                    <span (click)="resend()" *ngIf="timer != false"> Resend</span>
+                    <countdown #cd *ngIf="timer" [config]="configcd" (event)="clockCounter($event)"> </countdown>
+                    <span (click)="resend()" *ngIf="!timer"> Resend</span>
                 </span>
             </div>
             <div *ngIf="loginDetails.IsOTPSend != 1">
@@ -47,7 +47,7 @@
     <div class="modal-body">
       <form>
         <div class="mb-3">
-          <label>{{alertMessage}}</label>
+          <label>Wrong OTP!!</label>
         </div>
       </form>
     </div>

@@ -16,14 +16,13 @@ import { Router, RouterModule, Routes } from '@angular/router';
 import { ModalBoxComponent } from './components/modal-box/modal-box.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppServiceService } from './services/app-service.service';
-import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+
 import { OtpValidationComponent } from './components/otp-validation/otp-validation.component';
 import { OtpVerificationService } from './services/otp-verification.service';
 import { CountdownComponent } from 'ngx-countdown';
 import { NgOtpInputModule } from 'ng-otp-input';
 
-
+// Routings [if a new page is added add a route in this]
 const appRoute : Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', redirectTo: 'login', pathMatch: 'full' },
@@ -36,15 +35,16 @@ const appRoute : Routes = [
 ]
 
 @NgModule({
+  // Components [if a new component is created add here]
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     EmpListComponent,
     ModalBoxComponent,
-    SplashScreenComponent,
     OtpValidationComponent,
   ],
+  // Modules [if a new module is imported add here]
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -62,10 +62,11 @@ const appRoute : Routes = [
     BrowserAnimationsModule,
     CountdownComponent,
   ],
-  
-  providers: [ AuthService, GetEmpListService, SharingService, MarkAttendanceService, AppServiceService, OtpVerificationService ],
+  // Services [if a new service is created add here ]
+  providers: [ AuthService, GetEmpListService, SharingService, MarkAttendanceService, OtpVerificationService ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
   constructor(){}
  }

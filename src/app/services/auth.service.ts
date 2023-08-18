@@ -6,9 +6,11 @@ import data from '../../assets/json/data.json';
   providedIn: 'root'
 })
 export class AuthService {
+  // data from json
   orgData = data;
   constructor(private http: HttpClient) {}
 
+  // validating user login details http request
   public getUsers(user: any) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("Ind",1);
