@@ -29,6 +29,10 @@
                             
                             <button (click)="onSubmit()" type="submit" class="btn btn-primary btn-block mt-4 w-100">Login</button>
                             <button class="btn btn-help" (click)="open(helpInstructions)">Help Instructions</button>
+                            <div class="policies">
+                              <button class="btn btn-policy" (click)="goto('privacy-policy')">Privacy Policy</button>
+                              <button class="btn btn-policy" (click)="goto('terms-condition')">Terms & Conditions</button>
+                            </div>
                         </form>
                     </div>
                 </div>

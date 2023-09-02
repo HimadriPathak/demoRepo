@@ -54,6 +54,10 @@ export class HomeComponent {
       for(let i = 0; i < this.data.Table1.length; i++){
         this.wards.push(this.data.Table1[i].WardNo);
       }
+      if(this.wards.length == 1){
+        this.selected = this.wards[0];
+        this.callemplist();
+      }
     // if wardNo. is not '0' employee list function is called which display employee table 
     }else{
       this.selected = this.wardNo;

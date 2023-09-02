@@ -21,6 +21,10 @@ import { OtpValidationComponent } from './components/otp-validation/otp-validati
 import { OtpVerificationService } from './services/otp-verification.service';
 import { CountdownComponent } from 'ngx-countdown';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsAndConditionComponent } from './components/terms-and-condition/terms-and-condition.component';
+// import { App, URLOpenListenerEvent } from '@capacitor/app';
+
 
 // Routings [if a new page is added add a route in this]
 const appRoute : Routes = [
@@ -28,10 +32,14 @@ const appRoute : Routes = [
   { path: 'login', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', redirectTo: 'home', pathMatch: 'full' },
   {path: 'otp-validation', redirectTo: 'otp-validation', pathMatch: 'full'},
+  {path:'privacy-policy', redirectTo: 'privacy-policy', pathMatch: 'full'},
+  {path:'terms-and-condition', redirectTo: 'terms-and-condition', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'otp-validation', component: OtpValidationComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'empList', component: EmpListComponent}
+  {path: 'empList', component: EmpListComponent},
+  {path: 'privacy-policy', component: PrivacyPolicyComponent},
+  {path: 'terms-and-condition', component: TermsAndConditionComponent}
 ]
 
 @NgModule({
@@ -43,6 +51,8 @@ const appRoute : Routes = [
     EmpListComponent,
     ModalBoxComponent,
     OtpValidationComponent,
+    PrivacyPolicyComponent,
+    TermsAndConditionComponent,
   ],
   // Modules [if a new module is imported add here]
   imports: [

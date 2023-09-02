@@ -69,3 +69,7 @@ form .btn{
 .otp > span > span {
     text-decoration: underline;
 }
+
+.countdown{
+    display: none;
+}

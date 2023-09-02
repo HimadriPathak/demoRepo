@@ -5,6 +5,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { OtpVerificationService } from 'src/app/services/otp-verification.service';
 import data from "../../../assets/json/data.json";
+import { App } from '@capacitor/app'
+import { PluginListenerHandle } from '@capacitor/core';
+// import { Plugins} from '@capacitor/core';
+
+// import { App } from Plugins;
 
 @Component({
   selector: 'app-login',
@@ -24,13 +29,27 @@ export class LoginComponent {
   newData:any;
   @ViewChild('default') defaultTemplate!: TemplateRef<any>;
   
-  constructor(private otp: OtpVerificationService,private modalService: NgbModal,private fb: FormBuilder, private router: Router, private auth : AuthService){
+  constructor(private otp: OtpVerificationService,
+    private modalService: NgbModal,private fb: FormBuilder, 
+    private router: Router, private auth : AuthService){
+
+      App.addListener('backButton', this.BackButtonListener)
+
+      // App.addListener('backButton', ({canGoBack}) => {
+      //   App.exitApp();
+      // });
+    
     // this tells that both the field is necessary
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     })
   }
+  BackButtonListener(){
+    App.exitApp();
+  }
+
+
 
   // when we click on eye-icon 
   hideShowPass(){
@@ -95,4 +114,14 @@ export class LoginComponent {
   open(template: TemplateRef<any> = this.defaultTemplate) {
 		this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title' })
 	}
+
+  goto(st: String){
+    if(st == 'privacy-policy'){
+      this.router.navigate(['/privacy-policy']);
+    }else if(st == 'terms-condition'){
+      this.router.navigate(['/terms-and-condition']); 
+    }
+  }
 }
+
+

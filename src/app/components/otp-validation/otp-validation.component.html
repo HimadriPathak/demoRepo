@@ -18,7 +18,7 @@
                     <button (click)="onSubmit(otpinput)" type="submit" class="btn btn-primary btn-block mt-4 w-100">Submit</button>
                 </div>
                 <span>didn't receive OTP? 
-                    <countdown #cd *ngIf="timer" [config]="configcd" (event)="clockCounter($event)"> </countdown>
+                    <countdown #cd *ngIf="timer" class="countdown" [config]="configcd" (event)="clockCounter($event)"> </countdown>
                     <span (click)="resend()" *ngIf="!timer"> Resend</span>
                 </span>
             </div>
